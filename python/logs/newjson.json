@@ -1,0 +1,31 @@
+{
+    "params": {
+        "threshold": 1,
+        "windowSize": 1,
+        "windowUnit": "m",
+        "environment": "live",
+        "serviceName": "__STRATOSPHERE_SVC_NAME__"
+    },
+    "consumer": "apm",
+    "schedule": {
+        "interval": "1m"
+    },
+    "tags": [
+        "apm",
+        "servicename:__STRATOSPHERE_SVC_NAME__"
+    ],
+    "name": "error-count-threshold|__STRATOSPHERE_SVC_NAME__",
+    "enabled": true,
+    "throttle": null,
+    "rule_type_id": "apm.error_rate",
+    "notify_when": "onActiveAlert",
+    "actions": [
+        {
+            "group": "threshold_met",
+            "id": "__CONNECTOR_ID__",
+            "params": {
+                "message": "{{alertName}} alert is firing because of the following conditions:\n\n- Service name: {{context.serviceName}}\n- Environment: {{context.environment}}\n- Threshold: {{context.threshold}} errors\n- Triggered value: {{context.triggerValue}} errors over the last {{context.interval}}\n- Date: {{date}}\n- ElasticUrl: __ELASTIC_LOGS_URL__?logFilter=(language:kuery,query:%27labels.stratosphere-resource-name%20:%20%22__SVC_NAME__%22%20and%20labels.stratosphere-project-name%20:%20%22__PROJECT_NAME__%22%20and%20labels.stratosphere-stage-name%20:%20%22live%22%20and%20labels.stratosphere-geography-name%20:%20%22__GEOG__%22%20and%20kubernetes.container.name:%20%22service%22%27)&flyoutOptions=(flyoutId:!n,flyoutVisibility:hidden,surroundingLogsId:!n)&logPosition=(end:now,position:!n,start:%27{{date}}%27,streamLive:!f)"
+            }
+        }
+    ]
+}
